@@ -1,5 +1,5 @@
 [project]
-name = "website-summary-opensource-olama"
+name = "website-summary-opensource-ollama"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
