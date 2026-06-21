@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChromaDB Vector Space Visualizer</title>
+    <!-- Modern Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome for sleek icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/style.css">
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="logo-container">
+                <div class="logo-glow"></div>
+                <i class="fa-solid fa-cube logo-icon"></i>
+                <div class="logo-text">
+                    <h1>ChromaDB</h1>
+                    <span>Vector Store Visualizer</span>
+                </div>
+            </div>
+            <div class="stats-badge">
+                <i class="fa-solid fa-database"></i>
+                <span id="doc-count">Loading...</span> documents
+            </div>
+        </header>
+
+        <!-- Main Workspace -->
+        <main class="workspace">
+            <!-- Left Panel: Control & Search -->
+            <section class="panel left-panel">
+                <div class="glass-card search-card">
+                    <h2 class="section-title"><i class="fa-solid fa-magnifying-glass"></i> Semantic Search</h2>
+                    <p class="section-desc">Search documents using natural language. The query will be embedded and projected live onto the 2D vector space.</p>
+                    <div class="search-box">
+                        <input type="text" id="search-input" placeholder="Type a concept, name, or contract term..." autocomplete="off">
+                        <button id="search-btn" class="glow-button"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    </div>
+                    <button id="clear-search-btn" class="text-button hidden"><i class="fa-solid fa-xmark"></i> Clear Results</button>
+                </div>
+
+                <!-- Category Legend -->
+                <div class="glass-card legend-card">
+                    <h2 class="section-title"><i class="fa-solid fa-filter"></i> Categories</h2>
+                    <ul class="legend-list">
+                        <li class="legend-item" data-category="contracts">
+                            <span class="dot dot-contracts"></span>
+                            <span class="label">Contracts</span>
+                            <span class="count" id="count-contracts">0</span>
+                        </li>
+                        <li class="legend-item" data-category="employees">
+                            <span class="dot dot-employees"></span>
+                            <span class="label">Employees</span>
+                            <span class="count" id="count-employees">0</span>
+                        </li>
+                        <li class="legend-item" data-category="products">
+                            <span class="dot dot-products"></span>
+                            <span class="label">Products</span>
+                            <span class="count" id="count-products">0</span>
+                        </li>
+                        <li class="legend-item" data-category="company">
+                            <span class="dot dot-company"></span>
+                            <span class="label">Company Info</span>
+                            <span class="count" id="count-company">0</span>
+                        </li>
+                        <li class="legend-item" data-category="general">
+                            <span class="dot dot-general"></span>
+                            <span class="label">General</span>
+                            <span class="count" id="count-general">0</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Search Matches -->
+                <div class="glass-card search-results-card hidden" id="results-card">
+                    <h2 class="section-title"><i class="fa-solid fa-list-ol"></i> Semantic Matches</h2>
+                    <div class="results-list" id="results-list">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Center Panel: Vector Plot -->
+            <section class="panel center-panel">
+                <div class="glass-card canvas-card">
+                    <div class="canvas-header">
+                        <h2 class="section-title"><i class="fa-solid fa-chart-scatter"></i> 2D Embeddings Space Projection</h2>
+                        <span class="projection-method">Method: NumPy PCA</span>
+                    </div>
+                    <div class="canvas-container">
+                        <canvas id="vector-chart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Right Panel: Document Details -->
+            <section class="panel right-panel">
+                <div class="glass-card details-card" id="details-panel">
+                    <div class="details-empty" id="details-empty-state">
+                        <i class="fa-regular fa-folder-open empty-icon"></i>
+                        <h3>Select a Document</h3>
+                        <p>Click any point on the scatter plot or a search match to view its contents and metadata here.</p>
+                    </div>
+                    <div class="details-content hidden" id="details-content-state">
+                        <div class="details-header">
+                            <span class="badge" id="details-category-badge">contracts</span>
+                            <h3 id="details-filename">Contract with Advantage Medical.md</h3>
+                        </div>
+                        <div class="details-meta">
+                            <div class="meta-item">
+                                <span class="meta-label">ID / Path</span>
+                                <span class="meta-val" id="details-path">knowledge-base/contracts/Contract...</span>
+                            </div>
+                            <div class="meta-item hidden" id="distance-container">
+                                <span class="meta-label">Semantic Distance</span>
+                                <span class="meta-val glow-text" id="details-distance">0.5431</span>
+                            </div>
+                        </div>
+                        <div class="content-body">
+                            <h4 class="body-title">Document Content</h4>
+                            <pre class="content-text" id="details-text">Document content goes here...</pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Custom JavaScript -->
+    <script src="/static/app.js"></script>
+</body>
+</html>
