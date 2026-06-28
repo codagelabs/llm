@@ -1,0 +1,24 @@
+# ChromaDB vector store (large binary files — regenerate with: python main.py --ingest)
+chroma_db/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+*.egg-info/
+dist/
+build/
+
+# Environment
+.env
+.env.*
+
+# macOS
+.DS_Store
+
+# Jupyter
+.ipynb_checkpoints/
+
+# uv
+.python-version
